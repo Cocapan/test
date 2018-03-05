@@ -9,7 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library>
@@ -193,7 +193,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.sun:tools:1.5.0">
         <CLASSES>
-          <root url="jar://D:/panxuan/program files/java/jdk1.8.0_144/lib/tools.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../java/jdk1.8.0_144/lib/tools.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -214,7 +214,7 @@
     <orderEntry type="module-library">
       <library name="Maven: jdk.tools:jdk.tools:1.8">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../Java/jdk1.8.0_101/lib/tools.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/jdk/tools/jdk.tools/1.8/jdk.tools-1.8.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

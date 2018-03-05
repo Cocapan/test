@@ -1,15 +1,22 @@
 package com.px.hbase;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.CompareFilter;
-import org.apache.hadoop.hbase.filter.SingleColumnValueExcludeFilter;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
+import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
 import org.apache.hadoop.hbase.io.compress.Compression;
+import org.apache.hadoop.hbase.mapreduce.ImportTsv;
+import org.apache.hadoop.hbase.mapreduce.TableOutputFormat;
+import org.apache.hadoop.hbase.mapreduce.TableReducer;
 import org.apache.hadoop.hbase.mapreduce.TsvImporterMapper;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.RegionSplitter;
+import org.apache.hadoop.io.Writable;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.junit.After;
 import org.junit.Before;
@@ -272,7 +279,22 @@ public class HbaseTest {
 
     @Test
     public void importData(){
-        new Configuration();
+        String table = "importTable";
+        String sourceFilePath = "C:\\Users\\hyt\\Desktop\\im.csv";
+        Configuration configuration = connection.getConfiguration();
+        try {
+            Job csvImportJob = Job.getInstance(configuration, "CsvImportTest");
+            csvImportJob.setJarByClass(ImportTest.class);
+            FileInputFormat.addInputPath(csvImportJob,new Path(sourceFilePath));
+            csvImportJob.setMapperClass(ImportTest.CsvImportMapper.class);
+            csvImportJob.getConfiguration().set(TableOutputFormat.OUTPUT_TABLE,table);
+            csvImportJob.setOutputKeyClass(ImmutableBytesWritable.class);
+            csvImportJob.setOutputValueClass(Writable.class);
+            csvImportJob.setNumReduceTasks(0);
+            System.exit(csvImportJob.waitForCompletion(true) ? 0 : 1);
+        } catch (IOException | InterruptedException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void getCellInfo(Cell cell){
